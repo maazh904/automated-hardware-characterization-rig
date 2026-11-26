@@ -1,5 +1,4 @@
 # automated-hardware-characterization-rig
-# Automated Hardware Characterization Rig
 
 **Python Based Circuit Testing Using the Digilent Analog Discovery 3**
 
