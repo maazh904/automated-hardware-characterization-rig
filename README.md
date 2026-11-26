@@ -56,6 +56,12 @@ The theoretical relationship is:
 
 The script automatically saved the measurements to a CSV file and generated plots showing the voltage response and percentage error.
 
+### Circuit Schematic
+
+![DC voltage divider with AD3 input and measurement points](01_dc_voltage_divider/images/dc_schematic.png)
+
+*DC voltage divider used for the automated input-voltage sweep.*
+
 ### Results
 
 - Five automated voltage measurements
@@ -65,6 +71,16 @@ The script automatically saved the measurements to a CSV file and generated plot
 - Mean absolute deviation: approximately 0.28%
 
 The measurements closely matched the expected behaviour of the voltage divider.
+
+### Experimental Plots
+
+**Measured vs. theoretical voltage response**
+
+![DC voltage divider theoretical and measured output voltages](01_dc_voltage_divider/images/dc_voltage_response.png)
+
+**Percentage error across the DC sweep**
+
+![Voltage divider percentage error as a function of input voltage](01_dc_voltage_divider/images/dc_error.png)
 
 This experiment also provided a foundation for using the WaveForms SDK to control the AD3 directly through Python.
 
@@ -92,6 +108,12 @@ I developed a Python script to generate sine waves over a frequency range of 100
 
 These measurements were then used to generate magnitude and phase Bode plots.
 
+### Circuit Schematic
+
+![Fixed 10 kΩ and 10 nF RC low-pass filter and AD3 measurements](02_fixed_rc_lowpass/images/fixed_rc_schematic.png)
+
+*Fixed first-order RC low-pass filter with Vin and Vout measurement points.*
+
 ### Results
 
 I performed three separate frequency sweeps to check the consistency of the measurements.
@@ -104,6 +126,16 @@ I performed three separate frequency sweeps to check the consistency of the meas
 | Error relative to theory | +3.99% |
 
 The measured response followed the expected first order behaviour, with increasing attenuation at higher frequencies and phase approaching −90°.
+
+### Experimental Bode Plots
+
+**Magnitude response**
+
+![Fixed RC filter magnitude response, experimental data against theory](02_fixed_rc_lowpass/images/rc_magnitude.png)
+
+**Phase response**
+
+![Fixed RC filter phase response, experimental data against theory](02_fixed_rc_lowpass/images/rc_phase.png)
 
 The three cutoff measurements were also very close to one another, suggesting that the automated measurement process was highly repeatable under the same test conditions.
 
@@ -126,6 +158,18 @@ The relationship between resistance and cutoff frequency remained:
 `fc = 1 / (2πRC)`
 
 Decreasing the effective resistance increased the cutoff frequency, allowing more of the higher-frequency signal to pass through.
+
+### Circuit and Hardware
+
+**KiCad schematic draft**
+
+![Draft schematic of the SPI-controlled programmable first-order RC filter](03_programmable_rc/images/programmable_rc_schematic_draft.png)
+
+*This KiCad drawing is a documentation draft. The actual rheostat connection uses MCP4131 terminal A (pin 5) at the series resistor and the wiper (pin 6) joined to terminal B (pin 7) at the capacitor node.*
+
+**Breadboard implementation**
+
+![Programmable RC filter breadboard connected to the Analog Discovery 3](03_programmable_rc/images/programmable_rc_hardware.jpg)
 
 ### Automation
 
@@ -150,6 +194,16 @@ I tested three potentiometer settings, resulting in 120 automated frequency meas
 
 All three measured cutoff frequencies were within 2% of their nominal theoretical predictions.
 
+### Experimental Bode Plots
+
+**Magnitude response at the three SPI settings**
+
+![Programmable first-order RC filter magnitude responses for h20 h40 and h60](03_programmable_rc/images/programmable_rc_magnitude.png)
+
+**Phase response at the three SPI settings**
+
+![Programmable first-order RC filter phase responses for h20 h40 and h60](03_programmable_rc/images/programmable_rc_phase.png)
+
 This was an important step in the project because it combined digital communication with analog circuit behaviour.
 
 It also showed that the AD3 could be used not only to measure a circuit but to automatically change its operating conditions.
@@ -171,6 +225,18 @@ Unlike the previous first order filters, this circuit contains two poles.
 As a result, the high-frequency magnitude response approaches −40 dB/decade rather than −20 dB/decade, while the phase approaches −180°.
 
 The cutoff frequency could still be adjusted through SPI, since the first stage retained its digitally programmable resistance.
+
+### Circuit and Hardware
+
+**KiCad schematic draft**
+
+![Draft schematic for the programmable buffered second-order active filter](04_second_order_active_filter/images/second_order_schematic_draft.png)
+
+*This KiCad drawing is a documentation draft and is not intended as a verified wiring reference. In the tested circuit, the programmable resistance is between MCP4131 pin 5 and the joined pins 6 and 7; both MCP6022 amplifiers are wired as unity-gain buffers.*
+
+**Breadboard implementation**
+
+![Final two-stage active RC filter constructed on a breadboard](04_second_order_active_filter/images/second_order_hardware.jpg)
 
 ### Automation and Testing
 
@@ -201,6 +267,16 @@ The repeatability results were particularly encouraging:
 | h60 | 0.083% |
 
 All three configurations had cutoff frequency coefficients of variation below 0.11%.
+
+### Experimental Bode Plots
+
+**Magnitude response**
+
+![Programmable second-order active filter magnitude responses for the three SPI settings](04_second_order_active_filter/images/second_order_magnitude.png)
+
+**Phase response**
+
+![Programmable second-order active filter phase responses for the three SPI settings](04_second_order_active_filter/images/second_order_phase.png)
 
 The measured Bode plots also showed the expected second order behaviour, including a high-frequency rolloff approaching −40 dB/decade and phase approaching −180°.
 
@@ -281,18 +357,18 @@ The repository contains the Python programs, experimental measurements, and plot
 
 ### Python Programs
 
-- `dcSweep.py` — Automated voltage divider measurements
-- `plotDc.py` — DC characterization plots
-- `rcSweep.py` — Fixed RC frequency sweeps
-- `programmableRcAutoSweep.py` — Programmable first order filter automation
-- `programmableSecondOrderAutoSweep.py` — Second order filter automation
+- `dcSweep.py`: Automated voltage divider measurements
+- `plotDc.py`: DC characterization plots
+- `rcSweep.py`: Fixed RC frequency sweeps
+- `programmableRcAutoSweep.py`: Programmable first order filter automation
+- `programmableSecondOrderAutoSweep.py`: Second order filter automation
 
 ### Experimental Results
 
-- `01_dc_voltage_divider/` — Voltage divider measurements and error plots
-- `02_fixed_rc_lowpass/` — Fixed RC Bode plots and repeatability tests
-- `03_programmable_rc/` — Programmable first order filter measurements
-- `04_second_order_active_filter/` — Second order filter results and repeatability analysis
+- `01_dc_voltage_divider/`: Voltage divider measurements and error plots
+- `02_fixed_rc_lowpass/`: Fixed RC Bode plots and repeatability tests
+- `03_programmable_rc/`: Programmable first order filter measurements
+- `04_second_order_active_filter/`: Second order filter results and repeatability analysis
 
 The CSV files contain the collected measurement data, while the generated plots provide visual comparisons between experimental and theoretical results.
 
