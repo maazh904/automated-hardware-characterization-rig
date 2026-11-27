@@ -2,10 +2,6 @@
 
 AD3 + MCP4131-103 + MCP6022 dual unity-gain buffers.
 
-This is adapted from the user's SUCCESSFULLY RUNNING
-programmable_rc_auto_sweep.py.  SPI control, AD3 power sequencing,
-frequency-change retries, and dual-channel oscilloscope acquisition are retained.
-
 Required connections (both chips share a 3.3 V supply and common GND):
   AD3 digital 0 -> MCP4131 pin 1 (CS)
   AD3 digital 1 -> MCP4131 pin 2 (SCK)
@@ -27,15 +23,6 @@ Required connections (both chips share a 3.3 V supply and common GND):
 The ideal transfer function is
     H(s) = 1 / [(1 + s*Rprog*C1) (1 + s*R2*C2)]
 where Rprog = 2220 + 10000*(128-code)/128 ohms (nominal model).
-
-This script does NOT measure the individual first-stage output. It measures
-AD3 W1 and the output of MCP6022 buffer B (the *entire* two-stage filter).
-
-SAFETY: Close WaveForms before running. This script powers the chips BEFORE
-turning on Wavegen and turns Wavegen off BEFORE removing chip power.
-
-Run: py programmable_second_order_auto_sweep.py
-Dependencies: py -m pip install numpy matplotlib
 """
 from __future__ import annotations
 
