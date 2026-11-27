@@ -11,12 +11,6 @@ Physical wiring, same as the working 3 kHz test:
           7 -> 6 (B tied to wiper).
   AD3 CH1+ -> W1; CH1-, CH2- -> GND.
   Add a 100 nF decoupler between MCP4131 pins 8 and 4.
-
-Close WaveForms before running this script: py programmable_rc_auto_sweep.py
-Install once if necessary: py -m pip install numpy matplotlib
-
-The script keeps the chip powered BEFORE enabling W1, and disables W1
-BEFORE powering off the chip. It doesn't alter any previous manual-export CSVs.
 """
 
 from __future__ import annotations
